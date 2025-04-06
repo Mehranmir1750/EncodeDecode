@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Caesar Cipher Encoder/Decoder</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      background: #f0f4f8;
+      color: #333;
+      max-width: 600px;
+      margin: auto;
+    }
+    h1 {
+      text-align: center;
+      color: #2a9d8f;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 1rem;
+    }
+    textarea, input, select {
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 0.3rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      margin-top: 1rem;
+      padding: 0.7rem;
+      width: 100%;
+      background-color: #2a9d8f;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #21867a;
+    }
+    #result {
+      margin-top: 1.5rem;
+      padding: 1rem;
+      background-color: #e9f5f4;
+      border-left: 5px solid #2a9d8f;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Caesar Cipher</h1>
+
+  <label for="direction">Choose action:</label>
+  <select id="direction">
+    <option value="encode">Encode</option>
+    <option value="decode">Decode</option>
+  </select>
+
+  <label for="text">Enter your message:</label>
+  <textarea id="text" rows="4"></textarea>
+
+  <label for="shift">Enter shift number:</label>
+  <input type="number" id="shift" value="1" />
+
+  <button onclick="runCipher()">Submit</button>
+
+  <div id="result" style="display: none;"></div>
+
+  <script>
+    const alphabet = 'abcdefghijklmnopqrstuvwxyz';
+
+    function runCipher() {
+      const direction = document.getElementById("direction").value;
+      const text = document.getElementById("text").value.toLowerCase();
+      let shift = parseInt(document.getElementById("shift").value);
+      const resultBox = document.getElementById("result");
+
+      if (direction === 'decode') shift *= -1;
+
+      let output = '';
+
+      for (let char of text) {
+        if (!alphabet.includes(char)) {
+          output += char;
+        } else {
+          const currentIndex = alphabet.indexOf(char);
+          let newIndex = (currentIndex + shift) % 26;
+          if (newIndex < 0) newIndex += 26;
+          output += alphabet[newIndex];
+        }
+      }
+
+      resultBox.style.display = 'block';
+      resultBox.textContent = `Result: ${output}`;
+    }
+  </script>
+
+</body>
+</html>
